@@ -1,0 +1,69 @@
+import java.util.Scanner;
+
+public class Lab15 {
+
+    public static void main(String[] args)
+    {
+        SecurityCheck seccheck = new SecurityCheck("1234", "abc", "4321");
+
+        Scanner scanner = new Scanner(System.in);
+
+        boolean access = false;
+
+        String pw1;
+        String pw2;
+        String overridepw;
+
+        while(!access)
+        {
+            System.out.println("Enter password 1");
+            pw1 = scanner.next();
+
+            System.out.println("Enter password 2");
+            pw2 = scanner.next();
+
+            System.out.println("Enter override password");
+            overridepw = scanner.next();
+
+            access = seccheck.accessGranted(pw1, pw2, overridepw);
+        }
+
+        System.out.println("Access granted!");
+        scanner.close();
+    }
+}
+class SecurityCheck 
+{ 
+    private String userpw1; 
+    private String userpw2; 
+    private String overridepw; 
+    private boolean locked = false; 
+    
+    public SecurityCheck(String pw1, String pw2, String opw)
+    {
+        this.userpw1 = pw1; 
+        this.userpw2 = pw2; 
+        this.overridepw = opw; 
+    }
+    public boolean login1(String pw)
+    {
+        return(pw.equals(this.userpw1));
+    }
+    public boolean login2(String pw)
+    {
+        return(pw.equals(this.userpw2));
+    }
+    public boolean adminlogin1(String pw)
+    {
+        return(pw.equals(this.overridepw));
+    }
+    public boolean accessGranted(String pw1, String pw2, String opw)
+    {
+        if((login1(pw1) && login2(pw2) && !locked) || adminlogin1(opw))
+        { 
+            return true; 
+        }
+        locked = true; 
+        return false; 
+    }
+} 
